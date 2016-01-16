@@ -1,5 +1,5 @@
 require 'benchmark'
-require './crystal_example_ext'
+require_relative 'extension_with_crystal'
 
 Benchmark.bm 10 do |r|
   r.report "tarai" do

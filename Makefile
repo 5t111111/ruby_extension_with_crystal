@@ -3,16 +3,16 @@ UNAME = "$(shell uname -ms)"
 LIBS = -levent -lpcl -lpcre -lgc -lpthread
 LDFLAGS = -Wl,-undefined,dynamic_lookup
 
-TARGET = crystal_example_ext.bundle
+TARGET = extension_with_crystal.bundle
 
-$(TARGET): crystal_example_ext.o
+$(TARGET): extension_with_crystal.o
 	$(CC) -bundle -o $@ $^ $(LIBS) $(LDFLAGS)
 
-crystal_example_ext.o: crystal_example_ext.cr
+extension_with_crystal.o: extension_with_crystal.cr
 	$(CRYSTAL) build --cross-compile $(UNAME) $<
 
 .PHONY: clean
 clean:
 	rm -f bc_flags
-	rm -f crystal_example_ext.o
+	rm -f extension_with_crystal.o
 	rm -f $(TARGET)
