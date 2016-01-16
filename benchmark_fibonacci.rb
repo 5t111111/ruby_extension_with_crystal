@@ -7,6 +7,6 @@ Benchmark.bm 18 do |r|
     fibonacci(40)
   end
   r.report "fibonacci (crystal)" do
-    fibonacci(40)
+    fibonacci_cr(40)
   end
 end
