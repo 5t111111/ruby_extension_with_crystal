@@ -3,6 +3,7 @@ lib LibRuby
 
   $rb_cObject : VALUE
 
+  fun rb_define_global_function(name : UInt8*, func : VALUE, VALUE -> VALUE, argc : Int32)
   fun rb_define_class(name : UInt8*, super : VALUE) : VALUE
   fun rb_define_method(klass : VALUE, name : UInt8*, func : VALUE, VALUE, VALUE, VALUE -> VALUE, argc : Int32)
   fun rb_define_module_function(klass : VALUE, name : UInt8*, func : VALUE, VALUE, VALUE, VALUE -> VALUE, argc : Int32)
@@ -12,6 +13,16 @@ lib LibRuby
   fun rb_num2int_inline(value : VALUE) : Int32
   fun rb_num2int(value : VALUE) : Int32
   fun rb_int2inum(value : Int32) : VALUE
+end
+
+def fibonacci_cr(self : LibRuby::VALUE, value : LibRuby::VALUE)
+  int_value = LibRuby.rb_num2int(value)
+  LibRuby.rb_int2inum(fibonacci_cr2(int_value))
+end
+
+def fibonacci_cr2(n)
+  return n if n <= 1
+  fibonacci_cr2(n - 1) + fibonacci_cr2(n - 2)
 end
 
 def generate(self : LibRuby::VALUE, value : LibRuby::VALUE, col : LibRuby::VALUE, row : LibRuby::VALUE)
@@ -56,9 +67,11 @@ fun init = Init_extension_with_crystal
   GC.init
   LibCrystalMain.__crystal_main(0, Pointer(Pointer(UInt8)).null)
 
-  rb_class_table = LibRuby.rb_define_class("Table", LibRuby.rb_cObject)
+  LibRuby.rb_define_global_function("fibonacci_cr", ->fibonacci_cr, 1);
+
+  rb_class_table = LibRuby.rb_define_class("TableCr", LibRuby.rb_cObject)
   LibRuby.rb_define_method(rb_class_table, "generate", ->generate, 3);
 
-  rb_class_takeuchi = LibRuby.rb_define_class("Takeuchi", LibRuby.rb_cObject)
+  rb_class_takeuchi = LibRuby.rb_define_class("TakeuchiCr", LibRuby.rb_cObject)
   LibRuby.rb_define_module_function(rb_class_takeuchi, "tarai", ->tarai, 3);
 end
