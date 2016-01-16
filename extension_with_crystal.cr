@@ -25,25 +25,6 @@ def fibonacci_cr2(n)
   fibonacci_cr2(n - 1) + fibonacci_cr2(n - 2)
 end
 
-def generate(self : LibRuby::VALUE, value : LibRuby::VALUE, col : LibRuby::VALUE, row : LibRuby::VALUE)
-  rb_str = LibRuby.rb_str_to_str(value)
-  c_str  = LibRuby.rb_string_value_cstr(pointerof(rb_str))
-  cr_str = String.new(c_str)
-  int_col = LibRuby.rb_num2int(col)
-  int_row = LibRuby.rb_num2int(row)
-
-  table = "<table>"
-
-  int_row.times do |row_i|
-    table += "\n  <tr class='row-#{row_i}'>"
-    int_col.times { |col_i| table += "\n    <td>(#{col_i}) #{cr_str}</td>" }
-    table += "\n  </tr>"
-  end
-
-  table += "\n</table>"
-  LibRuby.rb_str_new(table.to_unsafe, table.size)
-end
-
 def tarai(self : LibRuby::VALUE, x : LibRuby::VALUE, y : LibRuby::VALUE, z : LibRuby::VALUE)
   int_x = LibRuby.rb_num2int(x)
   int_y = LibRuby.rb_num2int(y)
@@ -61,6 +42,25 @@ def tarai2(x, y, z)
   else
     y
   end
+end
+
+def generate(self : LibRuby::VALUE, value : LibRuby::VALUE, col : LibRuby::VALUE, row : LibRuby::VALUE)
+  rb_str = LibRuby.rb_str_to_str(value)
+  c_str  = LibRuby.rb_string_value_cstr(pointerof(rb_str))
+  cr_str = String.new(c_str)
+  int_col = LibRuby.rb_num2int(col)
+  int_row = LibRuby.rb_num2int(row)
+
+  table = "<table>"
+
+  int_row.times do |row_i|
+    table += "\n  <tr class='row-#{row_i}'>"
+    int_col.times { |col_i| table += "\n    <td>(#{col_i}) #{cr_str}</td>" }
+    table += "\n  </tr>"
+  end
+
+  table += "\n</table>"
+  LibRuby.rb_str_new(table.to_unsafe, table.size)
 end
 
 fun init = Init_extension_with_crystal

@@ -9,7 +9,7 @@ $(TARGET): extension_with_crystal.o
 	$(CC) -bundle -o $@ $^ $(LIBS) $(LDFLAGS)
 
 extension_with_crystal.o: extension_with_crystal.cr
-	$(CRYSTAL) build --cross-compile $(UNAME) $<
+	$(CRYSTAL) build --release --cross-compile $(UNAME) $<
 
 .PHONY: clean
 clean:
