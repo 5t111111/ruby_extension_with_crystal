@@ -10,7 +10,6 @@ lib LibRuby
   fun rb_str_to_str(str : VALUE) : VALUE
   fun rb_string_value_cstr(ptr : VALUE*) : UInt8*
   fun rb_str_new(ptr : UInt8*, len : Int32) : VALUE
-  fun rb_num2int_inline(value : VALUE) : Int32
   fun rb_num2int(value : VALUE) : Int32
   fun rb_int2inum(value : Int32) : VALUE
 end
